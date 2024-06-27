@@ -1,0 +1,64 @@
+Explanation of Multi-Chaotic AES Encryption and Decryption Script
+
+This script performs file encryption and decryption using a modified AES algorithm that incorporates
+multi-chaotic systems (Lorenz and Chen attractors) to enhance security.
+The key expansion process in this algorithm introduces a higher level of complexity and
+unpredictability compared to the standard AES, making it more resistant to cryptographic attacks.
+
+Components of the Script:
+
+Lorenz Attractor Step:
+
+This function computes the next step of the Lorenz attractor, which generates chaotic values
+based on three parameters: sigma, rho, and beta. These values are updated iteratively to
+create a complex and unpredictable sequence.
+Chen Attractor Step:
+
+Similar to the Lorenz attractor, this function computes the next step of the Chen attractor
+using parameters alpha, beta, and delta. The Chen attractor adds another layer of chaos to
+the key expansion process.
+Multi-Chaotic Key Expansion:
+
+This function combines the outputs of the Lorenz and Chen attractors over a specified number of
+rounds to generate a key stream. The key stream is used to modify the AES key material,
+making it more complex and harder to predict.
+Multi-Chaotic AES Encrypt:
+
+This function encrypts the input data using the AES algorithm, with the key material
+modified by the multi-chaotic key expansion process. The resulting ciphertext is a combination
+of the encrypted data and the nonce used by the AES cipher.
+Multi-Chaotic AES Decrypt:
+
+This function decrypts the ciphertext using the AES algorithm and the same multi-chaotic key
+expansion process. It retrieves the original plaintext data from the encrypted file.
+Generate Key:
+
+This function generates a simple 3-byte key, which serves as the initial values for
+the Lorenz and Chen attractors.
+Save and Load File:
+
+These functions handle the saving and loading of binary files. They are used to store
+the encrypted and decrypted data.
+Main Function:
+
+The main function ties everything together. It accepts user input for the file path,
+loads the file data, generates a key, performs encryption using the multi-chaotic AES method,
+saves the encrypted file, decrypts the encrypted data, and saves the decrypted file.
+Process Overview:
+
+Initialization:
+
+Set the number of rounds and parameters for the Lorenz and Chen attractors.
+Initialize the attractor variables with the generated key.
+Key Expansion:
+
+Iterate over the number of rounds, updating the attractor variables using their respective step functions.
+Generate a key stream by combining the chaotic values from both attractors.
+Encryption:
+
+Encrypt the input data using the AES algorithm with the modified key material.
+Save the encrypted data to a file.
+Decryption:
+
+Decrypt the encrypted data using the same key expansion process.
+Save the decrypted data to a file.

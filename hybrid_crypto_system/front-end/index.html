@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Crypto System</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="app">
+        <h1>Hybrid Crypto System</h1>
+        <p>This is a simple implementation of the Hybrid Cryptosystem</p>
+        <div class="quiz">
+          <h2>File Encryption and Upload</h2>
+          <label for="fileInput">Select one or more files:</label>
+          <input type="file" id="fileInput" multiple>
+          <label for="encryptionMethod">Select Encryption Method:</label>
+          <select id="encryptionMethod">
+              <option value="RSA/AES">RSA/AES</option>
+              <option value="ECC/AES">ECC/AES</option>
+              <option value="NGOA-DE-RSA/M-AES">NGOA-DE-RSA/M-AES</option>
+          </select>
+          <button onclick="encryptAndUpload()">Encrypt and Upload</button>
+          <div id="fileList"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

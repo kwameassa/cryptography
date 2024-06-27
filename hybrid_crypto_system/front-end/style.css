@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+body{
+  background: hsl(21, 90%, 36%);
+}
+.app{
+  background: #fff;
+  width: 90%;
+  max-width: 600px;
+  margin: 100px auto 0;
+  border-radius: 10px;
+  padding: 30px;
+}
+.app h1{
+  font-size: 25px;
+  color: #001e4d;
+  font-weight: 600;
+  /* border-bottom: 1px solid #333; */
+  padding-bottom: 5px;
+}
+
+.app p{
+  font-size: 15px;
+  color: #001e4d;
+  font-weight: 600;
+  /* border-bottom: 1px solid #333; */
+  padding-bottom: 30px;
+}
+
+.app h2{
+  font-size: 25px;
+  color: #a13013;
+  font-weight: 300;
+  border-bottom: 1px solid #333;
+  padding-bottom: 5px;
+}
+  
+  input[type="file"] {
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  #fileList {
+    margin-top: 20px;
+  }
+  
