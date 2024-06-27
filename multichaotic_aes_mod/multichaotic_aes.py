@@ -2,7 +2,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 import os
-
+import time
 
 # Lorenz attractor step function
 def lorenz_step(x, y, z, sigma, rho, beta, dt=0.01):
@@ -11,14 +11,12 @@ def lorenz_step(x, y, z, sigma, rho, beta, dt=0.01):
     dz = (x * y - beta * z) * dt
     return x + dx, y + dy, z + dz
 
-
 # Chen attractor step function
 def chen_step(x, y, z, alpha, beta, delta, dt=0.01):
     dx = alpha * (y - x) * dt
     dy = (beta * x - y - x * z) * dt
     dz = (delta * z + x * y - z) * dt
     return x + dx, y + dy, z + dz
-
 
 # Multi-chaotic key expansion
 def multi_chaotic_key_expansion(key, rounds, lorenz_params, chen_params):
@@ -44,15 +42,16 @@ def multi_chaotic_key_expansion(key, rounds, lorenz_params, chen_params):
 
     return bytes(key_stream[:32])  # Ensure the key is 32 bytes long
 
-
 # Multi-chaotic AES encryption
 def multi_chaotic_aes_encrypt(data, key, rounds, lorenz_params, chen_params):
     key_stream = multi_chaotic_key_expansion(key, rounds, lorenz_params, chen_params)
     cipher = AES.new(key_stream[:16], AES.MODE_EAX)
     nonce = cipher.nonce
+    start_time = time.time()
     ciphertext, tag = cipher.encrypt_and_digest(data)
-    return nonce + ciphertext
-
+    end_time = time.time()
+    encryption_time = end_time - start_time
+    return nonce + ciphertext, encryption_time
 
 # Multi-chaotic AES decryption
 def multi_chaotic_aes_decrypt(ciphertext, key, rounds, lorenz_params, chen_params):
@@ -60,26 +59,25 @@ def multi_chaotic_aes_decrypt(ciphertext, key, rounds, lorenz_params, chen_param
     ciphertext = ciphertext[16:]
     key_stream = multi_chaotic_key_expansion(key, rounds, lorenz_params, chen_params)
     cipher = AES.new(key_stream[:16], AES.MODE_EAX, nonce=nonce)
+    start_time = time.time()
     data = cipher.decrypt(ciphertext)
-    return data
-
+    end_time = time.time()
+    decryption_time = end_time - start_time
+    return data, decryption_time
 
 # Function to generate a key of appropriate length
 def generate_key(bit_size):
     return get_random_bytes(bit_size // 8)  # Generate a key based on the bit size
-
 
 # Function to save binary data to a file
 def save_file(filepath, data):
     with open(filepath, 'wb') as file:
         file.write(data)
 
-
 # Function to load binary data from a file
 def load_file(filepath):
     with open(filepath, 'rb') as file:
         return file.read()
-
 
 def main():
     input_file_path = input("Enter the path of the file to encrypt: ")
@@ -108,16 +106,17 @@ def main():
     chen_params = (35.0, 3.0, 28.0)
 
     # Encrypt the data
-    encrypted_data = multi_chaotic_aes_encrypt(pad(data, AES.block_size), key, rounds, lorenz_params, chen_params)
+    encrypted_data, encryption_time = multi_chaotic_aes_encrypt(pad(data, AES.block_size), key, rounds, lorenz_params, chen_params)
     save_file(output_encrypted_file_path, encrypted_data)
     print(f"Encrypted data saved to {output_encrypted_file_path}")
+    print(f"Encryption time: {encryption_time:.6f} seconds")
 
     # Decrypt the data
-    decrypted_data = multi_chaotic_aes_decrypt(encrypted_data, key, rounds, lorenz_params, chen_params)
+    decrypted_data, decryption_time = multi_chaotic_aes_decrypt(encrypted_data, key, rounds, lorenz_params, chen_params)
     decrypted_data = unpad(decrypted_data, AES.block_size)
     save_file(output_decrypted_file_path, decrypted_data)
     print(f"Decrypted data saved to {output_decrypted_file_path}")
-
+    print(f"Decryption time: {decryption_time:.6f} seconds")
 
 if __name__ == "__main__":
     main()
